@@ -7,27 +7,25 @@
 class PWMBase
 {
 public:
-    PWMBase(uint8_t pin, uint8_t channel)
+    PWMBase(uint8_t pin)
     {
         _pin = pin;
-        _channel = channel;
     };
 
     virtual ~PWMBase()
     {
-        ledcDetachPin(_pin);
+        ledcDetach(_pin);
     };
 
     virtual void begin()
     {
-        ledcSetup(_channel, 1000, 8);
-        ledcAttachPin(_pin, _channel);
-        ledcWrite(_channel, 0);
+        ledcAttach(_pin, 1000, 8);
+        ledcWrite(_pin, 0);
     };
 
     virtual void adjust(uint8_t level)
     {
-        ledcWrite(_channel, level);
+        ledcWrite(_pin, level);
     };
 
 protected:
@@ -38,7 +36,7 @@ protected:
 class BackLight : public PWMBase
 {
 public:
-    BackLight(uint8_t pin, uint8_t channel = 0) : PWMBase(pin, channel)
+    BackLight(uint8_t pin) : PWMBase(pin)
     {
     };
     uint8_t getLevel()
@@ -60,13 +58,13 @@ public:
     void on()
     {
         _on = true;
-        ledcWrite(_channel, _level);
+        ledcWrite(_pin, _level);
     };
 
     void off()
     {
         _on = false;
-        ledcWrite(_channel, 0);
+        ledcWrite(_pin, 0);
     };
 
     bool reverse()
@@ -84,7 +82,7 @@ private:
 class PWMToneBase : public PWMBase
 {
 public:
-    PWMToneBase(uint8_t pin, uint8_t channel, int freq) : PWMBase(pin, channel)
+    PWMToneBase(uint8_t pin, int freq) : PWMBase(pin)
     {
         _freq = freq;
         _tick = nullptr;
@@ -105,10 +103,10 @@ public:
 
     virtual void onec(int duration = 200)
     {
-        ledcWriteTone(_channel, _freq);
-        _tick->once_ms<uint8_t>(duration, [](uint8_t channel) {
-            ledcWriteTone(channel, 0);
-        }, _channel);
+        ledcWriteTone(_pin, _freq);
+        _tick->once_ms<uint8_t>(duration, [](uint8_t pin) {
+            ledcWriteTone(pin, 0);
+        }, _pin);
     };
 
 protected:
@@ -120,7 +118,7 @@ protected:
 class Motor : public PWMToneBase
 {
 public:
-    Motor(uint8_t pin, uint8_t channel = 4, int freq = 1000) : PWMToneBase(pin, channel, freq)
+    Motor(uint8_t pin, int freq = 1000) : PWMToneBase(pin, freq)
     {
     };
 };
@@ -129,7 +127,7 @@ public:
 class Buzzer : public PWMToneBase
 {
 public:
-    Buzzer(uint8_t pin, uint8_t channel = 2, int freq = 1000) : PWMToneBase(pin, channel, freq)
+    Buzzer(uint8_t pin, int freq = 1000) : PWMToneBase(pin, freq)
     {
     };
 };
