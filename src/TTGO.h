@@ -41,15 +41,7 @@ typedef FocalTech_Class CapacitiveTouch ;
 #endif
 #endif  /*LILYGO_WATCH_HAS_TOUCH*/
 
-#define EXTERNAL_TFT_ESPI_LIBRARY
-#if !defined(EXTERNAL_TFT_ESPI_LIBRARY)
-#if defined(LILYGO_WATCH_HAS_DISPLAY)   || defined(LILYGO_EINK_TOUCHSCREEN) || defined(LILYGO_WATCH_HAS_EINK)
-#include "libraries/TFT_eSPI/TFT_eSPI.h"
-#include "libraries/U8g2_for_Adafruit_GFX/src/U8g2_for_Adafruit_GFX.h"
-#endif
-#else   //EXTERNAL_TFT_ESPI_LIBRARY
 #include <TFT_eSPI.h>
-#endif  /*EXTERNAL_TFT_ESPI_LIBRARY*/
 
 #ifdef LILYGO_WATCH_HAS_BMA423
 #include "drive/bma423/bma.h"
