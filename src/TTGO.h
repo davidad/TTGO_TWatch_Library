@@ -48,11 +48,13 @@ typedef FocalTech_Class CapacitiveTouch ;
 #define TFT_WIDTH  240
 #define TFT_HEIGHT 240
 
-#define TFT_MISO            -1
-#define TFT_MOSI            19
-#define TFT_SCLK            18
-#define TFT_CS              5
-#define TFT_DC              27
+#define TFT_MISO            (GPIO_NUM_MAX)
+#define TFT_MOSI            (GPIO_NUM_19)
+#define TFT_SCLK            (GPIO_NUM_18)
+#define TFT_CS              (GPIO_NUM_5)
+#define TFT_DC              (GPIO_NUM_27)
+#define TFT_RST             (GPIO_NUM_MAX)
+#define TFT_BL              (GPIO_NUM_15)
 
 #define LOAD_GLCD   // Font 1. Original Adafruit 8 pixel font needs ~1820 bytes in FLASH
 #define LOAD_FONT2  // Font 2. Small 16 pixel high font, needs ~3534 bytes in FLASH, 96 characters
